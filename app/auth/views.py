@@ -16,13 +16,14 @@ def load_logged_in_user():
         g.user = None
 
     else:
-        g.user=User.check_user_by_id(user_id)
+        g.user = User.check_user_by_id(user_id)
 
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:
-            return redirect(url_for('auth.login'))
+            flash('You must log in')
+            return redirect(url_for('auth.login', next = request.url_rule))
         
         return view(**kwargs)
     return wrapped_view
@@ -48,9 +49,13 @@ def login():
                 and check_password_hash(user_log[3], password):
             session.clear()
             session['user_id'] = user_log[0]
-            return redirect(url_for('main.index'))
+            next = request.args.get('next')
+            print(next)
+            if next is None or not next.startswith('/'):
+                next = url_for('main.index')
+            return redirect(next)
 
-        print('El usuario no existe')
+        flash('Wrong username or password')
     return render_template('auth/login.html')
 
 
@@ -61,13 +66,13 @@ def signup():
         email = request.form['email']
         password = request.form['password']
 
-        user = User(username, generate_password_hash(password), email)
+        user = User(username, password, email)
 
         if user.check_user_by_username(username):
-            print('El usuario ya existe')
+            flash('User already exists')
         else:
             user.reg_user()
-            flash('Usuario registrado')
+            flash('User registered')
             return redirect(url_for('auth.login'))
 
     return render_template('auth/signup.html')
