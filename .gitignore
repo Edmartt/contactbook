@@ -2,6 +2,8 @@
 vscode/
 .vscode/
 
+#bat files
+*.bat
 #bash script
 
 *.sh
