@@ -29,7 +29,7 @@ def init_db():
 @click.command('init-db')
 @with_appcontext
 def init_db_command():
-    """Delete all data and creates new database and tables"""
+    """Delete all data and creates new tables"""
     init_db()
     click.echo('Database Created')
 
