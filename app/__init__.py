@@ -1,22 +1,14 @@
 import os
 from flask import Flask
+from config import config
 
 
-def create_app(test_config=None):
-    app = Flask(__name__, instance_relative_config=True)
-    app.config.from_mapping(
-        SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'database.sqlite'),)
 
-    if test_config is None:
-        app.config.from_pyfile('config.py', silent=True)
-    else:
-        app.config.from_mapping(test_config)
+def create_app(config_name):
+    app = Flask(__name__)
+    app.config.from_object(config[config_name])
+    config[config_name].init_app(app)
 
-    try:
-        os.makedirs(app.instance_path)
-    except OSError:
-        pass
 
     from .main import main as main_blueprint
     from .auth import auth as auth_blueprint
