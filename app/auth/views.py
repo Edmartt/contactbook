@@ -3,7 +3,7 @@ import functools
 from flask import render_template, request, redirect, url_for, flash, session, \
         g
 
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash
 from . import auth
 from ..users import User
 
@@ -11,20 +11,15 @@ from ..users import User
 @auth.before_app_request
 def load_logged_in_user():
     user_id = session.get('user_id')
-
-    if user_id is None:
-        g.user = None
-
-    else:
-        g.user = User.check_user_by_id(user_id)
+    g.user = None if user_id is None else User.check_user_by_id(user_id)
 
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:
             flash('You must log in')
-            return redirect(url_for('auth.login', next = request.url_rule))
-        
+            return redirect(url_for('auth.login', next=request.url_rule))
+
         return view(**kwargs)
     return wrapped_view
 
@@ -50,7 +45,7 @@ def login():
             session.clear()
             session['user_id'] = user_log[0]
             next = request.args.get('next')
-            print(next)
+
             if next is None or not next.startswith('/'):
                 next = url_for('main.index')
             return redirect(next)
@@ -65,8 +60,7 @@ def signup():
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
-
-        user = User(username, password, email)
+        user = User(username,password, email)
 
         if user.check_user_by_username(username):
             flash('User already exists')
