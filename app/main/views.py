@@ -10,6 +10,7 @@ def index():
 
 
 @main.route('/gente')
+@login_required
 def show_gente():
     nombres = ["Maria", "Jose"]
     return jsonify(nombres)
