@@ -22,6 +22,7 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
     os.path.join(basedir, 'data.sqlite')
+    SECRET_KEY = os.environ.get('SECRET_KEY')
 
 
 config = {
