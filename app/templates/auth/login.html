@@ -1,18 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<title></title>
-	</head>
-	<body>
-		<form action="" method="POST">
-			<input type="text" id="username" name="username" placeholder="Username">
-			<input type="password" id="password" name="password" placeholder="Password">
-			<input type="submit" value="Iniciar Sesión">
-		</form>
+{% extends 'base.html' %}
 
-		<a href="/signup">Registrarse</a>
-		<a href="#">Restaurar contraseña</a>
+{% block title%}Login{%endblock%}
 
-	</body>
-</html>
+{% block content_page%}
+
+<form action="" method="POST">
+	<input type="text" id="username" name="username" placeholder="Username">
+	<input type="password" id="password" name="password" placeholder="Password">
+	<input type="submit" value="Iniciar Sesión">
+</form>
+
+{% endblock %}
