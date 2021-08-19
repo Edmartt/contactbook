@@ -2,7 +2,6 @@ import functools
 
 from flask import render_template, request, redirect, url_for, flash, session, \
         g
-
 from werkzeug.security import check_password_hash
 from . import auth
 from ..users import User
@@ -12,6 +11,7 @@ from ..users import User
 def load_logged_in_user():
     user_id = session.get('user_id')
     g.user = None if user_id is None else User.check_user_by_id(user_id)
+
 
 def login_required(view):
     @functools.wraps(view)
