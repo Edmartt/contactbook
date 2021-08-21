@@ -63,7 +63,6 @@ class User:
         except Exception as ex:
             logging.exception('Error in check_user_by_username: ')
 
-
     @staticmethod
     def check_user_by_id(user_id: int) -> tuple:
         User.cursor = get_db().cursor()
