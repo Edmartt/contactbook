@@ -1,6 +1,6 @@
 click==8.0.1
 colorama==0.4.4
-Flask==2.2.3
+Flask==2.3.2
 greenlet==2.0.2
 importlib-metadata==6.0.0
 itsdangerous==2.0.1
